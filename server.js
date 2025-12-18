@@ -11,6 +11,7 @@ const corsOptions = {
     origin: function (origin, callback) {
         const allowedOrigins = [
             'https://otp-auth-system-frontend-5v89.vercel.app',
+            'https://www.vkrmmanufacturers.in',
             process.env.FRONTEND_URL,
             'http://localhost:3000',
             'http://localhost:3001'
