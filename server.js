@@ -25,6 +25,13 @@ app.get('/health', (req, res) => {
         message: 'Server is running' 
     });
 });
+
+app.get('/', (req, res) => {
+    res.status(200).json({
+        message: 'Welcome to the OTP Auth System API by Manya Shukla'
+    });
+});
+
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ 
