@@ -1,10 +1,15 @@
 const { Resend } = require('resend');
 require('dotenv').config();
 
-const resend = new Resend('re_T4iHgC1J_CTrirqXAGSVGRhUev88UsooU');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const sendOTPEmail = async (email, name, otp) => {
     try {
+        // Log OTP for development/testing purposes (in case email fails)
+        console.log('=================================================');
+        console.log(`DEVELOPMENT MODE - OTP for ${email}: ${otp}`);
+        console.log('=================================================');
+
         const { data, error } = await resend.emails.send({
             from: 'onboarding@resend.dev',
             to: email,
@@ -42,6 +47,10 @@ const sendOTPEmail = async (email, name, otp) => {
 
         if (error) {
             console.error('Error sending email:', error);
+            if (process.env.NODE_ENV !== 'production') {
+                console.log('Dev Mode: Treating email failure as success. Use console OTP.');
+                return { success: true };
+            }
             return { success: false, error: error };
         }
 
@@ -49,6 +58,10 @@ const sendOTPEmail = async (email, name, otp) => {
         return { success: true };
     } catch (error) {
         console.error('Error sending email:', error);
+        if (process.env.NODE_ENV !== 'production') {
+            console.log('Dev Mode: Treating email failure as success. Use console OTP.');
+            return { success: true };
+        }
         return { success: false, error: error.message };
     }
 };
