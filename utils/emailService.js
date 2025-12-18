@@ -1,18 +1,12 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 require('dotenv').config();
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
-});
+const resend = new Resend('re_T4iHgC1J_CTrirqXAGSVGRhUev88UsooU');
 
 const sendOTPEmail = async (email, name, otp) => {
     try {
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
+        const { data, error } = await resend.emails.send({
+            from: 'onboarding@resend.dev',
             to: email,
             subject: 'Your OTP for Login',
             html: `
@@ -44,9 +38,13 @@ const sendOTPEmail = async (email, name, otp) => {
                     </p>
                 </div>
             `
-        };
+        });
 
-        await transporter.sendMail(mailOptions);
+        if (error) {
+            console.error('Error sending email:', error);
+            return { success: false, error: error };
+        }
+
         console.log(`OTP email sent to ${email}`);
         return { success: true };
     } catch (error) {
