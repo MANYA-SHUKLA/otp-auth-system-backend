@@ -31,6 +31,7 @@ JWT_SECRET=your_jwt_secret_here
 EMAIL_USER=your.email@gmail.com
 EMAIL_PASS=your_email_password_or_app_password
 FRONTEND_URL=http://localhost:3000
+RESEND_API_KEY=?
 PORT=5001
 ```
 
