@@ -39,12 +39,13 @@ router.post('/send-otp', async (req, res) => {
         }
         const otp = user.generateOTP();
         await user.save();
-        const emailSent = await sendOTPEmail(email, user.name, otp);
+        const emailResult = await sendOTPEmail(email, user.name, otp);
         
-        if (!emailSent) {
+        if (!emailResult.success) {
             return res.status(500).json({ 
                 success: false, 
-                message: 'Failed to send OTP email' 
+                message: `Failed to send OTP email: ${emailResult.error}`,
+                error: emailResult.error
             });
         }
 
