@@ -5,13 +5,12 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const sendOTPEmail = async (email, name, otp) => {
     try {
-        // Log OTP for development/testing purposes (in case email fails)
         console.log('=================================================');
         console.log(`DEVELOPMENT MODE - OTP for ${email}: ${otp}`);
         console.log('=================================================');
 
         const { data, error } = await resend.emails.send({
-            from: 'onboarding@resend.dev',
+            from: "VKRM OTP <no-reply@vkrmmanufacturers.in>",
             to: email,
             subject: 'Your OTP for Login',
             html: `
